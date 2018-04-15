@@ -15,23 +15,30 @@
 			}
 		};
 
-	const userInput = Chatbot.findElement(settings.selectors.userInput),
-		submitBtn = Chatbot.findElement(settings.selectors.submitBtn);
+	const { 
+		fetchData, 
+		findElement, 
+		createMessageBlock, 
+		createVideoBlock, 
+		fetchLocationAndTemp
+	} = Chatbot,
+		userInput = findElement(settings.selectors.userInput),
+		submitBtn = findElement(settings.selectors.submitBtn);
 
 	submitBtn.addEventListener("click", submitHandler);
 
-	Chatbot.fetchLocationAndTemp(fetchLocationSuccess, fetchLocationFailure)
+	fetchLocationAndTemp(fetchLocationSuccess, fetchLocationFailure)
 
 	function fetchLocationSuccess(res) {
 		temperature = res.main.temp;
 		location = res.name;
 
-		Chatbot.fetchData({
+		fetchData({
 			url: 'js/response.json',
 			type: 'GET',
 			success: function (res) {
 				responseJson = res;
-				Chatbot.createMessageBlock({
+				createMessageBlock({
 					messageText: responseJson.query[queryCounter],
 					messageType: settings.classes.botMessage,
 					temperature,
@@ -43,12 +50,12 @@
 
 	function fetchLocationFailure (err) {
 		console.error(err.message);
-		Chatbot.fetchData({
+		fetchData({
 			url: 'js/response.json',
 			type: 'GET',
 			success: function (res) {
 				responseJson = res;
-				Chatbot.createMessageBlock({
+				createMessageBlock({
 					messageText: responseJson.query[queryCounter],
 					messageType: settings.classes.botMessage
 				});
@@ -59,7 +66,7 @@
 	function submitHandler (event) {
 		event.preventDefault();
 
-		Chatbot.createMessageBlock({
+		createMessageBlock({
 			messageText: userInput.value,
 			messageType: settings.classes.userMessage
 		});
@@ -80,7 +87,7 @@
 					recommendedShampoo: answer[userInput].recommendation
 				};
 
-				Chatbot.createMessageBlock({
+				createMessageBlock({
 					messageText: responseJson.query[queryCounter],
 					messageType: settings.classes.botMessage
 				});
@@ -88,18 +95,18 @@
 
 			else {
 				answer[userInput].botResponse.forEach( function(res, index) {
-					Chatbot.createMessageBlock({
+					createMessageBlock({
 						messageText: res,
 						messageType: settings.classes.botMessage
 					});
 				});
-				Chatbot.createVideoBlock(answer[userInput].mediaLink);
+				createVideoBlock(answer[userInput].mediaLink);
 			}
 		}
 
 		else if(queryCounter == 1 && typeof parseInt(userInput) === 'number') {
 			if((userInput > washes.noOfWash && userData.userInput === 'dull') || (userInput <= washes.noOfWash && userData.userInput === 'oily')) {
-				Chatbot.createMessageBlock({
+				createMessageBlock({
 					messageText: washes.optionalResponse,
 					messageType: settings.classes.botMessage,
 					number: userInput,
@@ -107,7 +114,7 @@
 				});
 			}
 
-			Chatbot.createMessageBlock({
+			createMessageBlock({
 				messageText: washes.botResponse,
 				messageType: settings.classes.botMessage,
 				recommendedShampoo: userData.recommendedShampoo
@@ -115,12 +122,12 @@
 		}
 
 		else {
-			Chatbot.createMessageBlock({
+			createMessageBlock({
 				messageText: responseJson.userResponse.default,
 				messageType: settings.classes.botMessage
 			});
 
-			Chatbot.createMessageBlock({
+			createMessageBlock({
 				messageText: responseJson.query[queryCounter],
 				messageType: settings.classes.botMessage,
 				temperature,

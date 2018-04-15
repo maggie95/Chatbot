@@ -67,6 +67,8 @@ var Chatbot = function () {
 			},
 			parent: messagesContainer
 		});
+
+		messagesContainer.children[messagesContainer.children.length - 1].scrollIntoView();
 	}
 
 	function fetchLocationAndTemp (successCallback, failureCallback) {		
@@ -92,8 +94,8 @@ var Chatbot = function () {
 	return {
 		fetchData: fetchData,
 		findElement: findElement,
-		fetchLocationAndTemp: fetchLocationAndTemp,
 		createMessageBlock: createMessageBlock,
-		createVideoBlock: createVideoBlock
+		createVideoBlock: createVideoBlock,
+		fetchLocationAndTemp: fetchLocationAndTemp
 	}
 }();

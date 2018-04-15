@@ -26,7 +26,8 @@ body {
 }
 
 .chat-container {
-	background-image: url('../assets/conversationWithOutText.jpg');
+    background-color: #eee;
+	background-image: url('../assets/conversationWithoutText.jpg');
 }
 
 .message-container {
