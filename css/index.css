@@ -22,6 +22,7 @@ body {
 	animation: hide forwards;
 	animation-iteration-count: 1;
 	animation-delay: 3s;
+    z-index: 2;
 }
 
 .chat-container {
@@ -36,6 +37,52 @@ body {
 	max-height: 70vh;
     width: 100vw;
     overflow-y: scroll;
+}
+
+.bot-msg,
+.user-msg {
+    position: relative;;
+    margin: 10px 40px;
+    max-width: 60%;
+    padding: 15px;
+    border-radius: 25px;
+    clear: both;
+}
+
+.bot-msg::after,
+.user-msg::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-top: 0;
+}
+
+.bot-msg {
+    float: left;
+    color: #00357d;
+    background: #fff;
+}
+
+.bot-msg::after {
+    left: 0;
+    border-left: 0; 
+    border-right-color: #fff;
+    margin-left: -15px;
+}
+
+.user-msg {
+    float: right;
+    color: #fff;
+    background: #00357d;
+}
+
+.user-msg::after {
+    right: 0;
+    border-right: 0;
+    border-left-color: #00357d;
+    margin-right: -15px;
 }
 
 .chat-input {
@@ -54,7 +101,7 @@ body {
 .chat-input input,
 .chat-input button {
     font-size: 18px;
-    border: 1px solid #AC9D6C;
+    border: 1px solid #aa9b72;
     padding: 10px;
 }
 
@@ -70,8 +117,8 @@ body {
     float: right;
     width: 25%;
     outline: none;
-    background: #AC9D6C;
-    color: #FFF;
+    background: #aa9b72;
+    color: #fff;
     border-radius: 0 5px 5px 0;
  }
 
