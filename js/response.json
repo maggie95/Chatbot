@@ -1,6 +1,6 @@
 {
 	"query" : [
-		"Hi, it is {temperature} degress outside in {cityName}. How is your hair feeling?",
+		"Hi, it is {temperature} degrees outside in {cityName}. How is your hair feeling?",
 		"How many times do you wash your hair?"
 	],
 	"userResponse": {
@@ -25,6 +25,12 @@
 		"noOfWash": 7,
 		"optionalResponse": "Washing your hair {number} times per week when it is {hairCondition} is not healthy",
 		"botResponse": "I recommend you use dove {recommendedShampoo} shampoo"
-	}
-
+	},
+	"carousel": [
+		"assets/carousel-images/dandruff.jpg",
+		"assets/carousel-images/hairfall.jpg",
+		"assets/carousel-images/nourish-black.jpg",
+		"assets/carousel-images/nourishoil.jpg",
+		"assets/carousel-images/oilcare.jpg"
+	]
 }

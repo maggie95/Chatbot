@@ -40,6 +40,9 @@ body {
     overflow-y: scroll;
 }
 
+/*
+    message bubbles
+*/
 .bot-msg,
 .user-msg {
     position: relative;;
@@ -86,6 +89,45 @@ body {
     margin-right: -15px;
 }
 
+/*
+    image carousal
+*/
+.slide::after {
+    bottom: 15px;
+}
+
+.slide-left,
+.slide-right {
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+}
+
+.slide-left {
+    padding-right: 10px;
+}
+
+.slide-right {
+    padding-left: 10px;
+}
+
+.slide-item {
+    display: none;
+    width: 90%;
+    margin-left: 15px;
+}
+
+.slide-item.active {
+    display: inline-block;
+}
+
+.slide-item img {
+    width: 100%;
+}
+
+/*
+    user input field
+*/
 .chat-input {
 	width: 100%;
     position: absolute;

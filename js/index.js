@@ -1,13 +1,15 @@
 (function () {
 	var responseJson,
 		queryCounter = 0,
+		slideCounter,
 		location,
 		temperature,
 		userData = {},
 		settings = {
 			classes: {
 				"botMessage": "bot-msg",
-				"userMessage": "user-msg"
+				"userMessage": "user-msg",
+				"active": "active"
 			},
 			selectors: {
 				"userInput": "userInput",
@@ -18,8 +20,9 @@
 	const { 
 		fetchData, 
 		findElement, 
-		createMessageBlock, 
+		createMessageBlock,
 		createVideoBlock, 
+		createCarouselBlock,
 		fetchLocationAndTemp
 	} = Chatbot,
 		userInput = findElement(settings.selectors.userInput),
@@ -29,6 +32,10 @@
 
 	fetchLocationAndTemp(fetchLocationSuccess, fetchLocationFailure)
 
+	/**
+		* fetchLocationSuccess - success callback for fetching the local weather
+		* @param {object} res - response object after successful ajax call
+	*/
 	function fetchLocationSuccess(res) {
 		temperature = res.main.temp;
 		location = res.name;
@@ -48,8 +55,12 @@
 		});
 	}
 
+	/**
+		* fetchLocationFailure - failure callback for fetching user's location
+		* @param {object} err - error object after failed ajax call
+	*/
 	function fetchLocationFailure (err) {
-		console.error(err.message);
+		console.error(err.message + ': Unable to fetch location and temperature');
 		fetchData({
 			url: 'js/response.json',
 			type: 'GET',
@@ -63,6 +74,9 @@
 		});
 	}
 
+	/**
+		* submitHandler - event listener for the submit input button
+	*/
 	function submitHandler (event) {
 		event.preventDefault();
 
@@ -75,9 +89,15 @@
 		userInput.value = '';
 	}
 
+	/**
+		* responseGenerator - generates response based on the user's input
+		* @param {String} userInput - input provided by user
+	*/
 	function responseGenerator (userInput) {
 		var answer = responseJson.userResponse,
-			washes = responseJson.recommendedWash;
+			washes = responseJson.recommendedWash,
+			carouselPrev,
+			carouselNext;
 
 		if(queryCounter == 0 && answer[userInput]) {
 			if(typeof answer[userInput].botResponse === 'boolean') {
@@ -119,6 +139,19 @@
 				messageType: settings.classes.botMessage,
 				recommendedShampoo: userData.recommendedShampoo
 			});
+
+			createCarouselBlock(responseJson.carousel);
+
+			slideCounter = 0;
+			carouselPrev = findElement('slide-left');
+			carouselNext = findElement('slide-right');
+
+			carouselPrev.addEventListener('click', function () {
+				changeSlide(slideCounter-1);
+			});
+			carouselNext.addEventListener('click', function () {
+				changeSlide(slideCounter+1);
+			});
 		}
 
 		else {
@@ -134,6 +167,21 @@
 				location
 			});
 		}
+	}
+
+	/**
+		* changeSlide - event handler for handling the slide change in image carousel
+		* @param {Number} currentSlide - index of the new slide in carousal
+	*/
+	function changeSlide (currentSlide) {
+		var carousel = findElement('slide');
+
+		if(currentSlide >= 0 && currentSlide < carousel.children.length - 2) {
+			carousel.children.namedItem(slideCounter).classList.remove(settings.classes.active);
+			carousel.children.namedItem(currentSlide).classList.add(settings.classes.active);
+			slideCounter = currentSlide;
+		}
+		
 	}
 
 })();
